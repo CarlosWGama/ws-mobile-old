@@ -12,8 +12,9 @@ class UsuariosController extends Controller {
 
     /** Lista o usuários */
     public function index() {
-        $dados['usuarios'] = [
-
+        $this->dados['usuarios'] = [
+            (object)['id' => 1, 'nome' => 'Carlos', 'email' => 'carloswgama@gmail.com', 'admin' => true],
+            (object)['id' => 2, 'nome' => 'João', 'email' => 'teste@teste.com', 'admin' => false]
         ];
         return view('usuarios.listar', $this->dados);
     }
@@ -22,6 +23,12 @@ class UsuariosController extends Controller {
      * Abre a tela cadastrar novo usuário
      */
     public function novo() {
+        $this->dados['usuario'] = (object)[
+            'id' => 0, 
+            'nome' => '', 
+            'email' => '', 
+            'admin' => false
+        ];
         return view('usuarios.novo', $this->dados);
     }
 
@@ -29,7 +36,13 @@ class UsuariosController extends Controller {
      * Tenta salvar um novo usuário
      */
     public function cadastrar(Request $request) {
+        $request->validate([
+            'nome'  => 'required',
+            'senha'  => 'required|min:6',
+            //'email' => 'required|email|unique:usuarios,email',
+        ]);
 
+        return redirect()->route('usuarios.listar')->with(['sucesso' => 'Usuário cadastrado com sucesso']);
     }
 
     /** 
@@ -37,20 +50,31 @@ class UsuariosController extends Controller {
      * @param $id id do usuário
      */
     public function edicao(int $id) {
+        $this->dados['usuario'] = (object)[
+            'id' => 1, 
+            'nome' => 'Carlos', 
+            'email' => 'carloswgama@gmail.com', 
+            'admin' => true
+        ];
         return view('usuarios.edicao', $this->dados);
     }
     
     /** Tenta editar um usuário e salvar no banco
      * @param $id id do usuário
      */
-    public function editar(Request $request) {
+    public function editar(Request $request, int $id) {
+        $request->validate([
+            'nome'  => 'required',
+            //'email' => 'required|email|unique:usuarios,email,'.$id,
+        ]);
 
+        return redirect()->route('usuarios.listar')->with(['sucesso' => 'Usuário editado com sucesso']);
     }
     
     /** Remove um usuário
      * @param $id id do usuário
      */
     public function excluir(int $id) {
-        return redirect()->route('usuarios.listar')->with('successo', 'Usuário excluido');
+        return redirect()->route('usuarios.listar')->with('sucesso', 'Usuário excluido');
     }
 }

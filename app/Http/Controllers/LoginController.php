@@ -15,14 +15,16 @@ class LoginController extends Controller {
 
     /** Faz com o que o usuário tente realizar o login */
     public function logar(Request $request) {
-        if ($request->senha == '123456')
+        if ($request->senha == '123456') {
+            session(['usuario' => (object)['id' => 1, 'nome' => 'Carlos W. Gama', 'email' => 'carloswgama@gmail.com', 'admin' => true]]);
             return redirect()->route('dashboard');
-        else
+        } else
             return redirect()->back()->with(['erro' => 'Login ou Senha incorreta']);
     }
 
     /** Função para deslogar o usuário */
-    public function logout() {
+    public function logout(Request $request) {
+        $request->session()->flush();
         return redirect()->route('login');
     }
 }

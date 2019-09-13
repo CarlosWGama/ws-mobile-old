@@ -15,9 +15,9 @@ Route::get('/', function() { return redirect()->route('login'); });
 
 Route::get('/login', 'LoginController@index')->name('login');
 Route::post('/logar', 'LoginController@logar')->name('logar');
-Route::get('/logout', 'LoginController@logar')->name('logout');
+Route::get('/logout', 'LoginController@logout')->name('logout');
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
     Route::group(['prefix' => 'usuarios'], function () {
@@ -31,7 +31,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['prefix' => 'tarefas'], function () {
         Route::get('/', 'TarefasController@index')->name('tarefas.listar');
-        Route::get('/excluir/{id}', 'TarefasController@index')->name('tarefas.excluir');
+        Route::get('/excluir/{id}', 'TarefasController@excluir')->name('tarefas.excluir');
     });
 
 });

@@ -9,9 +9,9 @@
         
 
         <div class="table-responsive table-data">
-                @if(session('successo'))
+                @if(session('sucesso'))
                 <div class="alert alert-success" role="alert" style="margin:0px 10px">
-                    {{session('successo')}}
+                    {{session('sucesso')}}
                 </div>
                 @endif
             <table class="table">
@@ -24,57 +24,38 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                    @foreach($usuarios as $usuario)
                     <tr>
                         <!-- ID -->
-                        <td><h6>1</h6></td>
+                        <td><h6>{{$usuario->id}}</h6></td>
                         <!-- NOME -->
                         <td>
                             <div class="table-data__info">
-                                <h6>lori lynch</h6>
+                                <h6>{{$usuario->nome}}</h6>
                                 <span>
-                                    <a href="#">johndoe@gmail.com</a>
+                                    <a href="#">{{$usuario->email}}</a>
                                 </span>
                             </div>
                         </td>
                         <!-- ADMIN -->
                         <td>
+                            @if($usuario->admin)
                             <span class="role admin">admin</span>
+                            @else
+                            <span class="role user">Comum</span>
+                            @endif
                         </td>
                         <!-- OPÇÕES -->   
                         <td>
-                            <a href="{{route('usuarios.edicao', ['id' => 1])}}">
+                            <a href="{{route('usuarios.edicao', ['id' => $usuario->id])}}">
                                 <span class="more"><i class="zmdi zmdi-edit"></i></span>
                             </a>
-                            <a href="{{route('usuarios.excluir', ['id' => 1])}}">
+                            <a href="{{route('usuarios.excluir', ['id' => $usuario->id])}}">
                                 <span class="more"><i class="zmdi zmdi-delete"></i></span>
                             </a>
                         </td>
                     </tr>
-
-
-                    <tr>
-                        <td><h6>1</h6></td>
-                        <td>
-                            <div class="table-data__info">
-                                <h6>lori lynch</h6>
-                                <span>
-                                    <a href="#">johndoe@gmail.com</a>
-                                </span>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="role user">user</span>
-                        </td>
-                        <td>
-                            <a href="{{route('usuarios.edicao', ['id' => 1])}}">
-                                <span class="more"><i class="zmdi zmdi-edit"></i></span>
-                            </a>
-                            <a href="{{route('usuarios.excluir', ['id' => 1])}}">
-                                <span class="more"><i class="zmdi zmdi-delete"></i></span>
-                            </a>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
             

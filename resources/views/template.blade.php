@@ -134,21 +134,21 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">john doe</a>
+                                        <a class="js-acc-btn" href="#">{{session('usuario')->nome}}</a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
         
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#">john doe</a>
+                                                        <a href="#">{{session('usuario')->nome}}</a>
                                                     </h5>
-                                                    <span class="email">johndoe@example.com</span>
+                                                    <span class="email">{{session('usuario')->email}}</span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="{{route('usuarios.edicao', ['id' => 1])}}">
+                                                    <a href="{{route('usuarios.edicao', ['id' => session('usuario')->id])}}">
                                                         <i class="zmdi zmdi-account"></i>Editar Conta</a>
                                                 </div>
                                             </div>
