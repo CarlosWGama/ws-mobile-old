@@ -19,4 +19,13 @@ class Tarefa extends Model {
     public function usuario() {
         return $this->belongsTo('App\Models\Usuario');
     }
+
+
+    /**
+     * Altera como a data deve ser exibida
+     */
+    public function getDataAttribute($value) {
+        return date('d/m/Y', strtotime($value));
+    }
+
 }

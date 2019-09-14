@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Usuario;
+
 /**
  * Controller responsável pela manipulação dos dados do usuários 
  */
@@ -12,10 +14,7 @@ class UsuariosController extends Controller {
 
     /** Lista o usuários */
     public function index() {
-        $this->dados['usuarios'] = [
-            (object)['id' => 1, 'nome' => 'Carlos', 'email' => 'carloswgama@gmail.com', 'admin' => true],
-            (object)['id' => 2, 'nome' => 'João', 'email' => 'teste@teste.com', 'admin' => false]
-        ];
+        $this->dados['usuarios'] = Usuario::paginate(10);
         return view('usuarios.listar', $this->dados);
     }
 
@@ -23,12 +22,7 @@ class UsuariosController extends Controller {
      * Abre a tela cadastrar novo usuário
      */
     public function novo() {
-        $this->dados['usuario'] = (object)[
-            'id' => 0, 
-            'nome' => '', 
-            'email' => '', 
-            'admin' => false
-        ];
+        $this->dados['usuario'] = new Usuario;
         return view('usuarios.novo', $this->dados);
     }
 
@@ -41,6 +35,9 @@ class UsuariosController extends Controller {
             'senha'  => 'required|min:6',
             //'email' => 'required|email|unique:usuarios,email',
         ]);
+        $dados = $request->all();
+        $dados['senha'] = md5($dados['senha']);
+        Usuario::create($dados);
 
         return redirect()->route('usuarios.listar')->with(['sucesso' => 'Usuário cadastrado com sucesso']);
     }
@@ -50,12 +47,7 @@ class UsuariosController extends Controller {
      * @param $id id do usuário
      */
     public function edicao(int $id) {
-        $this->dados['usuario'] = (object)[
-            'id' => 1, 
-            'nome' => 'Carlos', 
-            'email' => 'carloswgama@gmail.com', 
-            'admin' => true
-        ];
+        $this->dados['usuario'] = Usuario::findOrFail($id);
         return view('usuarios.edicao', $this->dados);
     }
     
@@ -68,6 +60,12 @@ class UsuariosController extends Controller {
             //'email' => 'required|email|unique:usuarios,email,'.$id,
         ]);
 
+        $dados = $request->except(['_token']);
+        if (!empty($dados['senha']))
+            $dados['senha'] = md5($dados['senha']);
+        else unset($dados['senha']);
+        Usuario::where('id', $id)->update($dados);
+
         return redirect()->route('usuarios.listar')->with(['sucesso' => 'Usuário editado com sucesso']);
     }
     
@@ -75,6 +73,7 @@ class UsuariosController extends Controller {
      * @param $id id do usuário
      */
     public function excluir(int $id) {
+        Usuario::destroy($id);
         return redirect()->route('usuarios.listar')->with('sucesso', 'Usuário excluido');
     }
 }

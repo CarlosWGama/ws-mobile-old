@@ -50,9 +50,7 @@
                             <a href="{{route('usuarios.edicao', ['id' => $usuario->id])}}">
                                 <span class="more"><i class="zmdi zmdi-edit"></i></span>
                             </a>
-                            <a href="{{route('usuarios.excluir', ['id' => $usuario->id])}}">
-                                <span class="more"><i class="zmdi zmdi-delete"></i></span>
-                            </a>
+                            <span class="more remover-modal" data-toggle="modal" data-target="#smallmodal" data-id="{{$usuario->id}}"><i class="zmdi zmdi-delete"></i></span>
                         </td>
                     </tr>
                     @endforeach
@@ -60,9 +58,45 @@
             </table>
             
         <!-- Paginação -->
-        <div style="padding:10px"> aa</div>
+        <div style="padding:10px">{{$usuarios->links()}}</div>
         
         </div>
       
     </div>
+
+
+    @push('javascript')
+  <!-- modal small -->
+  <div class="modal fade" id="smallmodal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="smallmodalLabel">Remover Usuário</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                       Deseja Realmente excluir esse usuário?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-deletar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end modal small -->
+
+    <script>
+        let usuarioID;
+        $('.remover-modal').click(function() {
+            usuarioID = $(this).data('id');
+        })
+
+        $('.btn-deletar').click(() => window.location.href="{{route('usuarios.excluir')}}/"+usuarioID);
+    </script>
+@endpush
 @endsection

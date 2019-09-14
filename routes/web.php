@@ -26,12 +26,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         Route::post('/cadastrar', 'UsuariosController@cadastrar')->name('usuarios.cadastrar');
         Route::get('/edicao/{id}', 'UsuariosController@edicao')->name('usuarios.edicao');
         Route::post('/editar/{id}', 'UsuariosController@editar')->name('usuarios.editar');
-        Route::get('/excluir/{id}', 'UsuariosController@excluir')->name('usuarios.excluir');
+        Route::get('/excluir/{id?}', 'UsuariosController@excluir')->name('usuarios.excluir');
     });
 
     Route::group(['prefix' => 'tarefas'], function () {
         Route::get('/', 'TarefasController@index')->name('tarefas.listar');
-        Route::get('/excluir/{id}', 'TarefasController@excluir')->name('tarefas.excluir');
+        Route::get('/excluir/{id?}', 'TarefasController@excluir')->name('tarefas.excluir');
     });
 
 });

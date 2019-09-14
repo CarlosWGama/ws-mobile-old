@@ -214,6 +214,8 @@
     <!-- Main JS-->
     <script src="{{asset('js/main.js')}}"></script>
 
+    @stack('javascript')
+
 </body>
 
 </html>

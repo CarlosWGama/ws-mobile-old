@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Usuario;
+
 /**
  * Tela resposável por manipular as ações das telas de Login
  */
@@ -15,8 +17,9 @@ class LoginController extends Controller {
 
     /** Faz com o que o usuário tente realizar o login */
     public function logar(Request $request) {
-        if ($request->senha == '123456') {
-            session(['usuario' => (object)['id' => 1, 'nome' => 'Carlos W. Gama', 'email' => 'carloswgama@gmail.com', 'admin' => true]]);
+        $usuario = Usuario::where('email', $request->email)->where('senha', md5($request->senha))->first();
+        if ($usuario != null) {
+            session(['usuario' => $usuario]);
             return redirect()->route('dashboard');
         } else
             return redirect()->back()->with(['erro' => 'Login ou Senha incorreta']);
