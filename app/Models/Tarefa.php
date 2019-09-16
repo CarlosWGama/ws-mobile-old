@@ -12,6 +12,9 @@ class Tarefa extends Model {
     //Não protege nenhum campo
     protected $guarded = [];
 
+    //Esconde os campos
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+
     /**
      * Retorna os dados do usuário dono da tarefa
      * Inner Join
@@ -20,6 +23,14 @@ class Tarefa extends Model {
         return $this->belongsTo('App\Models\Usuario');
     }
 
+    /**
+     * Altera para a imagem ser exibida com a URL inteira.
+     */
+    public function getImagemAttribute($value) {
+        if (!empty($value))
+            return url('storage/fotos/'.$value);
+        return $value;
+    }
 
     /**
      * Altera como a data deve ser exibida

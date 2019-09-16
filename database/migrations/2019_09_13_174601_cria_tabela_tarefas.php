@@ -17,7 +17,7 @@ class CriaTabelaTarefas extends Migration
             $table->bigIncrements('id');
             $table->string('descricao');
             $table->date('data');
-            $table->string('imagem');
+            $table->string('imagem')->nullable();
             $table->unsignedBigInteger('usuario_id');
             $table->foreign('usuario_id')->references('id')->on('usuarios');
             $table->softDeletes();
