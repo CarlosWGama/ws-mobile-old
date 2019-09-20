@@ -22,6 +22,6 @@ Route::group(['middleware' => ['jwt']], function () {
         Route::get('/', 'Api\TarefasController@listar');
         Route::get('/{id}', 'Api\TarefasController@buscar');
         Route::put('/{id}', 'Api\TarefasController@atualizar');
-        Route::delete('/{id}', 'Api\TarefasController@deletar');
+        Route::delete('/{id}', 'Api\TarefasController@remover');
     }); 
 });
