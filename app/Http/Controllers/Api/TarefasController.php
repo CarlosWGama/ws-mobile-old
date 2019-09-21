@@ -32,9 +32,9 @@ class TarefasController extends ApiController {
         $tarefa = Tarefa::create($tarefa);
         
         //Caso tenha imagem, salva a imagem
-        if (!empty($request->tarefa->imagem)) {
-            $tarefa->imagem = 'tarefa_'.$tarefa->id.'.jpg';
-            $this->salvarImagem($request->tarefa->imagem, $tarefa->imagem);
+        if (!empty($request->tarefa['imagem'])) {
+            $tarefa->imagem = $nomeArquivo = 'tarefa_'.$tarefa->id.'.png';
+            $this->salvarImagem($request->tarefa['imagem'], $nomeArquivo);
             $tarefa->save();
         }
         return response()->json($tarefa, 201);
@@ -74,9 +74,9 @@ class TarefasController extends ApiController {
         $tarefa->data = implode('-', array_reverse(explode('/', $request->tarefa['data'])));
 
         //Caso tenha imagem, salva a imagem
-        if (!empty($request->tarefa->imagem) && substr($request->tarefa->imagem, 0, 4) == 'data') {
-            $tarefa->imagem = 'tarefa_'.$tarefa->id.'.jpg';
-            $this->salvarImagem($request->tarefa->imagem, $tarefa->imagem);
+        if (!empty($request->tarefa['imagem']) && substr($request->tarefa['imagem'], 0, 4) == 'data') {
+            $tarefa->imagem = $nomeArquivo = 'tarefa_'.$tarefa->id.'.jpg';
+            $this->salvarImagem($request->tarefa['imagem'], $nomeArquivo);
         }
         
         $tarefa->save();
@@ -100,7 +100,8 @@ class TarefasController extends ApiController {
      * @param $nomeArquivo | Qual nome do arquivo para ser salvo
      */
     private function salvarImagem(string $uriBase64, string $nomeArquivo) {
-        $imagemBase64 = end(explode(',', $uriBase64));
-        file_put_contents(storage_path('app/public/'.$nomeArquivo), file_get_contents($imagemBase64));
+        $vetor = explode(',', $uriBase64);
+        $imagemBase64 = end($vetor);
+        file_put_contents(storage_path('app/public/fotos/'.$nomeArquivo), base64_decode($imagemBase64));
     }
 }
