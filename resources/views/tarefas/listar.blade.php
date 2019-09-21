@@ -21,6 +21,7 @@
                         <td>Descrição</td>
                         <td>Dono</td>
                         <td>Data</td>
+                        <td>Imagem</td>
                         <td>Opções</td>
                     </tr>
                 </thead>
@@ -33,6 +34,14 @@
                         <td><h6>{{$tarefa->descricao}}</h6></td>
                         <!-- DONO -->
                         <td><h6>{{$tarefa->usuario->nome}}</h6></td>
+                        <!-- DONO -->
+                        <td>
+                            @if(!empty($tarefa->imagem)) 
+                                <a href="{{$tarefa->imagem}}" target="_blank"><h6>Abrir</h6></a>
+                            @else
+                                <h6>Sem imagem</h6>
+                            @endif
+                        </td> 
                         <!-- DATA -->
                         <td><h6>{{$tarefa->data}}</h6></td>
                         <!-- OPÇÕES -->   
