@@ -29,6 +29,7 @@
 
     <!-- Main CSS-->
     <link href="{{asset('css/theme.css')}}" rel="stylesheet" media="all">
+    <link href="{{asset('css/custom.css')}}" rel="stylesheet" media="all">
 
 </head>
 
@@ -215,6 +216,16 @@
     <script src="{{asset('js/main.js')}}"></script>
 
     @stack('javascript')
+
+    @if(isset($tinymce))
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+    tinymce.init({
+        selector: 'textarea.tinymce',  // change this value according to your HTML
+        menubar: false,
+      });
+    </script>
+    @endif
 
 </body>
 
