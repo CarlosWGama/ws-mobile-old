@@ -31,6 +31,7 @@
     <link href="{{asset('css/theme.css')}}" rel="stylesheet" media="all">
     <link href="{{asset('css/custom.css')}}" rel="stylesheet" media="all">
 
+    @stack('css')
 </head>
 
 <body class="animsition">
